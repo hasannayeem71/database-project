@@ -1,0 +1,32 @@
+.signup-form {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.switch-label {
+  margin-right: 1rem;
+}
+
+.input-hint {
+  margin: 0.2rem;
+}
+
+.terms-wrap {
+  display: flex;
+}
+
+.terms-label {
+  margin-left: 0.6rem;
+}
+
+.signup-button {
+  min-width: 100%;
+}
+
+.dark-mode-toggle {
+  display: flex;
+  align-content: space-around;
+  justify-content: center;
+  margin-bottom: 1rem;
+  width: 40rem;
+}
