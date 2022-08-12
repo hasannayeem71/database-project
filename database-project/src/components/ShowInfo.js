@@ -1,34 +1,44 @@
 import { Button, ScrollArea, Table } from "@mantine/core";
-import { IconTrash } from "@tabler/icons";
+import { IconTrash, IconTools } from "@tabler/icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useState } from "react";
+import EditUser from "./EditUser";
 
 const fetcher = () => {
   return axios.get(`http://localhost:5000/userinfo`);
 };
 const ShowInfo = () => {
+
+  const [opened, setOpened] = useState(false);
+  const [currentSelection, setCurrentSelection] = useState({});
   const { data } = useQuery(["userinfo"], fetcher);
   const queryClient = useQueryClient();
 
   const handleDelete = (data) => {
-   return axios
+    return axios
       .delete(`http://localhost:5000/userinfo/${data}`)
-      
+
   };
+  const handleEdit = async (row) => {
+    await setCurrentSelection(row);
+    await setOpened(true);
+    // console.log(row)
+  }
 
 
 
-    
-    const { mutate } =useMutation(handleDelete, {
-      onSuccess: () => {
-        queryClient.invalidateQueries("userinfo");
-      
-      },
-      onError: (error) => {
-        queryClient.invalidateQueries("userinfo");
-      },
-    });
- 
+
+  const { mutate } = useMutation(handleDelete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries("userinfo");
+
+    },
+    onError: (error) => {
+      queryClient.invalidateQueries("userinfo");
+    },
+  });
+
 
 
   const rows = data?.data?.map((row) => {
@@ -46,7 +56,14 @@ const ShowInfo = () => {
         <td>{row.country}</td>
         <td>{row.appointmentDate}</td>
         <td>{row.releseDate}</td>
-        <td>
+        <td style={{ display: 'flex' }}>
+          <Button
+            leftIcon={<IconTools color="blue" />}
+            onClick={() => {
+              handleEdit(row);
+            }}
+            variant="white"
+          />
           <Button
             leftIcon={<IconTrash color="red" />}
             onClick={() => {
@@ -61,9 +78,10 @@ const ShowInfo = () => {
 
   return (
     <ScrollArea>
+      <EditUser setOpened={setOpened} opened={opened} currentSelection={currentSelection} />
       <Table sx={{ minWidth: 800 }} verticalSpacing="xs">
         <thead>
-          <tr>
+          <tr >
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
@@ -76,7 +94,7 @@ const ShowInfo = () => {
             <th>Country</th>
             <th>Appointment Date</th>
             <th>Relese Date</th>
-            <th>Action</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
