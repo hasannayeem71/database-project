@@ -8,8 +8,8 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <Box
-    m="lg"
-  
+      m="lg"
+
       sx={{
 
         // backgroundColor: "black",
@@ -17,7 +17,7 @@ function App() {
     >
       <QueryClientProvider client={queryClient}>
         <PostUser />
-        <ShowInfo/>
+        <ShowInfo />
         <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
       </QueryClientProvider>
     </Box>

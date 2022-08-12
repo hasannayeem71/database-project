@@ -49,12 +49,44 @@ router.post("/", (req, res) => {
         country,
       ],
       (err, result) => {
-        if (err) res.send(err);
-        res.send({ result, message: "user info added", status: "success" });
-      }
-    );
+        if (err) { res.send(err); }
+        else {
+          res.send({ result, message: "user info added", status: "success" });
+
+        }
+      });
   }
 });
+// update userID
+router.post("/updateUser", (req, res) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    gender,
+    phone,
+    address,
+    city,
+    country,
+    age,
+    bloodGroup,
+    appointmentDate,
+    releseDate,
+    user_id
+  } = req.body;
+  console.log(req.body)
+  const query = `UPDATE userInfo SET firstName='${firstName}',lastName='${lastName}', email='${email}',gender='${gender}',phone='${phone}',address='${address}',city='${city}',country='${country}',age=${age},bloodGroup='${bloodGroup}',appointmentDate='${appointmentDate}',releseDate='${releseDate}' WHERE user_id=${user_id}`
+
+  con.query(query, (err, result) => {
+    if (err) { res.send(err); }
+    else {
+      res.send({ result, message: "user update", status: "success" });
+
+    }
+  });
+
+});
+
 
 // delete one user info
 router.delete("/:id", (req, res) => {
@@ -63,7 +95,8 @@ router.delete("/:id", (req, res) => {
     [req.params.id],
     (err, result) => {
       if (err) res.send(err);
-      res.send({ result, message: "user info deleted", status: "success" });
+      else
+        res.send({ result, message: "user info deleted", status: "success" });
     }
   );
 });
