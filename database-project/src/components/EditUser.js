@@ -95,7 +95,7 @@ function EditUser({ opened, setOpened, currentSelection }) {
                                 label="First Name"
                                 required
                                 placeholder="First name"
-                                defaultValue={currentSelection.firstName || 'kalasan'}
+                                defaultValue={currentSelection.firstName || ''}
                                 // value={form.values.firstName}
                                 onChange={(event) =>
                                     form.setFieldValue("firstName", event.currentTarget.value)
